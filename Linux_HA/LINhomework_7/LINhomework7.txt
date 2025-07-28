@@ -1,0 +1,21 @@
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root                 4.9G      2.3G      2.6G  47% /
+devtmpfs                 91.3M         0     91.3M   0% /dev
+#!/bin/bash
+USER=Olga
+echo "Script run by $User"
+echo "Working directory: /tmp"
+   0 cd /tmp/
+   1 vi file.txt
+   2 df -h |head -3 > file.txt 
+   3 cat file.txt 
+   4 ls -l
+   5 chmod 770 file.txt 
+   6 ls -l
+   7 vi myfirstbashscript.sh
+   8 chmod 744 myfirstbashscript.sh 
+   9 ls -l
+  10 ./myfirstbashscript.sh 
+  11 cat myfirstbashscript.sh >> file.txt 
+  12 cat file.txt 
+  13 history >> file.txt 

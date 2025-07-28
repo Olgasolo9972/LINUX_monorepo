@@ -1,0 +1,29 @@
+localhost:/tmp# cd /tmp/
+localhost:/tmp# touch myfirstbashscript.txt
+localhost:/tmp# chmod 744 myfirstbashscript.txt
+localhost:/tmp# vi myfirstbashscript.txt  
+
+#!/bin/bash
+USER=Olga
+DATE=$(date)
+echo "Hello $USER!"
+echo "Today is $DATE"
+echo "Working directory: /tmp"
+BIOSET=$(ps -ef | grep 'bioset' |wc -l)
+echo "Total bioset: $BIOSET"
+RIGHTS_FOR_PASSWD=$(ls -la /etc/passwd | awk '{print$1}')
+echo "Rigts for file /etc/passwd: $RIGHTS_FOR_PASSWD"
+~
+~
+~
+~
+~
+~
+localhost:/tmp# ./myfirstbashscript.sh
+Hello Olga!
+Today is Tue Jun 10 20:44:16 UTC 2025
+Working directory: /tmp
+Total bioset: 11
+Rigts for file /etc/passwd: -rw-r--r--
+localhost:/tmp# history >> history.file
+localhost:/tmp# export_file history.file

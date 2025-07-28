@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Ввод адреса
+read -p "Введите адрес для пинга: " TARGET
+
+# Счётчик неудачных попыток
+fail_count=0
+
+while true; do
+    # Выполняем ping один раз
+    output=$(ping -c 1 -W 1 "$TARGET")
+
+    # Проверка на успешный пинг
+    if echo "$output" | grep -q "time="; then
+        # Извлекаем время
+        time_ms=$(echo "$output" | grep "time=" | sed -E 's/.*time=([0-9.]+) ms/\1/')
+
+        echo "Успешный пинг: $time_ms ms"
+
+        # Проверка времени
+        if (( $(echo "$time_ms > 100" | bc -l) )); then
+            echo "⚠️  ВНИМАНИЕ: Время пинга превышает 100 мс ($time_ms ms)"
+        fi
+
+        fail_count=0  # сбрасываем счётчик неудач
+    else
+        echo "❌ Пинг не удался"
+        ((fail_count++))
+
+        if [ "$fail_count" -ge 3 ]; then
+            echo "‼️  Не удалось выполнить пинг 3 раза подряд"
+        fi
+    fi
+
+    sleep 1
+done
+
+
+#!/bin/bash
+
+read -p "Введите адрес для пинга: " TARGET
+fail=0
+
+while true; do
+  # ping один раз, получаем время или пустую строку
+  time_ms=$(ping -c1 -W1 "$TARGET" 2>/dev/null | grep 'time=' | sed -E 's/.*time=([0-9.]+) ms/\1/')
+
+  if [[ -z $time_ms ]]; then
+    echo "❌ Пинг не удался"
+    ((fail++))
+    ((fail >= 3)) && echo "‼️ Не удалось выполнить пинг 3 раза подряд"
+  else
+    echo "Пинг: $time_ms ms"
+    if (( $(echo "$time_ms > 100" | bc -l) )); then
+      echo "⚠️ Время пинга больше 100 мс"
+    fi
+    fail=0
+  fi
+
+  sleep 1
+done
